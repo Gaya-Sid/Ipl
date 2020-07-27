@@ -6,6 +6,25 @@ function fetchAndVisualizeData() {
 
 fetchAndVisualizeData();
 
+function fetchAndVisualizeExtraRunsConceded(val){
+  fetch("./data.json")
+    .then(r => r.json())
+    .then(data => {
+      visualizeExtraRunsConceded(data[2].extraRuns, val);
+    });
+};
+
+document.querySelector(".yearButton").addEventListener("click", function(){
+  let val = document.querySelector(".yearInput").value;
+  if(parseInt(val) < 2008 || parseInt(val) > 2019 ){
+    document.querySelector(".error").innerHTML= "Error: Enter year from 2008 to 2019";
+  } else {
+    document.querySelector(".error").innerHTML="";
+    fetchAndVisualizeExtraRunsConceded(val);
+  }
+  
+});
+
 function visualizeData(data) {
   console.log(data);
   visualizeMatchesPlayedPerYear(data[0].matchesPlayedPerYear);
@@ -99,19 +118,20 @@ function visualizematchesWonEachYear (matchesWonEachYear) {
   });
 }
 
-function visualizeExtraRunsConceded(extraRuns) {
+function visualizeExtraRunsConceded(extraRuns, year) {
   const seriesData = []; 
-  extraRuns.forEach( a => {
-    let res = Object.keys(a).concat(Object.values(a))
-    seriesData.push(res);
-  })
-
+  if(year){
+    extraRuns[year].forEach( a => {
+      let res = Object.keys(a).concat(Object.values(a))
+      seriesData.push(res);
+    })  
+  }
   Highcharts.chart("extraRunsConceded", {
     chart: {
       type: "column"
     },
     title: {
-      text: "3. Extra runs conceded by each team in 2016"
+      text: `"3. Extra runs conceded by each team in ${year ? year : "the year."}"`
     },
     subtitle: {
       text:
@@ -207,13 +227,6 @@ function visualizetopEconomicalBowlers(topEconomicalBowlers) {
 }
 
 function visualizematchesWonPerVenue(matchesWonPerVenue) {
-  console.log(matchesWonPerVenue)
-   // [{
-  //   name: 'Team',
-  //   data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-  // },{...}]
-
- 
   let venues = [];
   let result = [];
   matchesWonPerVenue.forEach(m => {
@@ -223,9 +236,6 @@ function visualizematchesWonPerVenue(matchesWonPerVenue) {
     result.push(obj)
     venues.push(...Object.values(m).flat().map(v => v[0]))
   })
-  console.log(result);
-  console.log(...new Set(venues));
-
 
   Highcharts.chart('matchesWonPerVenue', {
     chart: {
@@ -258,5 +268,3 @@ function visualizematchesWonPerVenue(matchesWonPerVenue) {
     series: result
   });
 }
-
-

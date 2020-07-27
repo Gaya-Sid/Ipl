@@ -14,9 +14,15 @@
 
 <body>
     <h1 style="text-align: center">IPL Dataset visualization</h1>
+    <div class="inputContainer">
+        <span class="label">Enter year: </span>
+        <input type="number" min="2008" max="2019" class="yearInput">
+        <button class="yearButton">Submit</button>
+        <span class="error">Error: Enter year from 2008 to 2019</span>
+    </div>
+    <div id="extraRunsConceded" style="min-width: 310px; height: 450px; margin: 20px auto; border: 2px solid black; "></div>
     <div id="matches-played-per-year" style="min-width: 310px; height: 400px; margin: 20px auto; border: 2px solid black; "></div>
     <div id="matchesWonEachYear" style="min-width: 310px; height: 450px; margin: 20px auto; border: 2px solid black; "></div>
-    <div id="extraRunsConceded" style="min-width: 310px; height: 450px; margin: 20px auto; border: 2px solid black; "></div>
     <div id="topEconomicalBowlers" style="min-width: 310px; height: 400px; margin: 20px auto; border: 2px solid black; "></div>
     <div id="matchesWonPerVenue" style="min-width: 310px; height: 900px; margin: 20px auto; border: 2px solid black; "></div>
 

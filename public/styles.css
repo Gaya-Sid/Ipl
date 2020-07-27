@@ -2,6 +2,15 @@ body {
     font-family: sans-serif;
     padding: 2% 10%;
 }
+
 div {
     padding: 10px 0;
+}
+
+.error {
+    color: red;
+}
+
+.hide {
+    display: none;
 }

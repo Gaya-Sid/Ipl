@@ -41,54 +41,54 @@ function matchesWonEachYear(matches) {
     })
     return res
   })
-  // let result = years.map(year => {
-  //   let res = {};
-  //   res[year] = {};
-  //   teams.forEach(team => {
-  //     if(team === ''){
-  //       res[year]["noResult"] =  getWins(team, year, data).length;
-  //     }else{
-  //       res[year][team] = getWins(team, year, data).length;
-  //     }
-  //   })
-  //   return res
-  // })
-
   return result;
 }
 
 // For the year 2016, plot the extra runs conceded by each team.
 function extraRuns(deliveries, matches) {  
-  let year = matches.filter(m => m.season === '2016')
-    .map( m => [[m.team1, m.team2], m.id, ])
-  let ids = matches.filter(m => m.season === '2016').map( m => m.id )
-  let teams = [...new Set(year.map( m => m[0][0]))];
-  let arr = [];
-  let res = [];
+  let years = [...new Set(matches.map( m => m.season))].sort();
 
-  ids.forEach( id => {
-    teams.forEach(team => {
-      arr.push([team, getRuns(id, team)])
-    })
+  let data = {};
+  years.forEach(year => {
+    data[year] = getExtraRuns(deliveries, matches, year);
   })
 
-  function getRuns(id, team) {
-    let runs = 0;
-    deliveries.filter(m => m["match_id"] === id)
-      .filter(t => t["bowling_team"] === team)
-      .forEach( x => runs += parseInt(x["extra_runs"]) );
-    return runs
+  // console.log(data);
+  function getExtraRuns(deliveries, matches, year){
+    let yearData = matches.filter(m => m.season === year)
+      .map( m => [[m.team1, m.team2], m.id, ])
+    let ids = matches.filter(m => m.season === year).map( m => m.id )
+    let teams = [...new Set(yearData.map( m => m[0][0]))];
+    let arr = [];
+    let res = [];
+
+    ids.forEach( id => {
+      teams.forEach(team => {
+        arr.push([team, getRuns(id, team)])
+      })
+    })
+
+    function getRuns(id, team) {
+      let runs = 0;
+      deliveries.filter(m => m["match_id"] === id)
+        .filter(t => t["bowling_team"] === team)
+        .forEach( x => runs += parseInt(x["extra_runs"]) );
+      return runs
+    }
+
+    teams.forEach( t => {
+      let sum = 0;
+      arr.filter(m => m[0] === t).forEach(v => {
+        sum += parseInt(v[1]);
+      })
+      res.push({[t]: sum});
+    })
+
+    // console.log(res)
+    return res
   }
-
-  teams.forEach( t => {
-    let sum = 0;
-    arr.filter(m => m[0] === t).forEach(v => {
-      sum += parseInt(v[1]);
-    })
-    res.push({[t]: sum});
-  })
-
-  return res
+  return data
+  
  }
 
  function topEconomicalBowlers(deliveries, matches) {

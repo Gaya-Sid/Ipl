@@ -1,5 +1,11 @@
 const fs = require("fs");
 const csv = require("csvtojson");
+
+const express = require('express');
+const app = express();
+var cors = require('cors');
+const path = __dirname + "/public/index.html";
+
 const { matchesPlayedPerYear, 
         matchesWonEachYear, 
         extraRuns, 
@@ -18,7 +24,7 @@ function main() {
         .fromFile(DELIVERIES_FILE_PATH)
         .then(deliveries => {
           result.push({"matchesPlayedPerYear" : matchesPlayedPerYear(matches) })
-          result.push({"matchesWonEachYear" : [...matchesWonEachYear(matches)] })
+          result.push({"matchesWonEachYear" : matchesWonEachYear(matches) })
           result.push({"extraRuns": extraRuns(deliveries, matches)});
           result.push({"topEconomicalBowlers": topEconomicalBowlers(deliveries, matches)});
           result.push({"matchesWonPerVenue": matchesWonPerVenue(deliveries, matches)});
@@ -40,3 +46,25 @@ function saveData(result) {
 }
 
 main();
+
+
+
+app.use(
+  cors({
+      credentials: true,
+      origin: true
+  })
+);
+app.options('*', cors());
+
+app.use(express.static("public"));
+
+app.get('/', function(req, res){
+  // res.json("data")
+  res.sendFile(path);
+});
+
+const port = process.env.PORT || 8080;
+app.listen(port, ()=> {
+  console.log(`Server Running at : ${port}`);
+})

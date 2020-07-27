@@ -60,7 +60,7 @@ app.options('*', cors());
 
 app.use(express.static("public"));
 app.get('/', function(req, res){
-  res.json("data")
+  // res.json("data")
   // res.sendFile(path);
 });
 

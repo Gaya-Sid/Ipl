@@ -22,7 +22,6 @@ document.querySelector(".yearButton").addEventListener("click", function(){
     document.querySelector(".error").innerHTML="";
     fetchAndVisualizeExtraRunsConceded(val);
   }
-  
 });
 
 function visualizeData(data) {

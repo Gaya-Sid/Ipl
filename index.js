@@ -61,7 +61,7 @@ app.options('*', cors());
 app.use(express.static("public"));
 app.get('/', function(req, res){
   // res.json("data")
-  // res.sendFile(path);
+  res.sendFile(path);
 });
 
 const port = process.env.PORT || 8080;

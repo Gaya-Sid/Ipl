@@ -45,13 +45,16 @@ function matchesWonEachYear(matches) {
 }
 
 // For the year 2016, plot the extra runs conceded by each team.
-function extraRuns(deliveries, matches) {  
-  let years = [...new Set(matches.map( m => m.season))].sort();
-
+function extraRuns(deliveries, matches, year) {  
+  // let years = [...new Set(matches.map( m => m.season))].sort();
   let data = {};
-  years.forEach(year => {
-    data[year] = getExtraRuns(deliveries, matches, year);
-  })
+
+  data[year] = getExtraRuns(deliveries, matches, year);
+
+ 
+  // years.forEach(year => {
+  //   data[year] = getExtraRuns(deliveries, matches, year);
+  // })
 
   // console.log(data);
   function getExtraRuns(deliveries, matches, year){
@@ -88,7 +91,6 @@ function extraRuns(deliveries, matches) {
     return res
   }
   return data
-  
  }
 
  function topEconomicalBowlers(deliveries, matches) {

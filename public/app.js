@@ -7,11 +7,7 @@ function fetchAndVisualizeData() {
 fetchAndVisualizeData();
 
 function fetchAndVisualizeExtraRunsConceded(val){
-  // fetch("./data.json")
-  //   .then(r => r.json())
-  //   .then(data => {
-  //     visualizeExtraRunsConceded(data[2].extraRuns, val);
-  //   });
+  document.querySelector("div.loader").classList.remove("hide");
   let url = `/api?year=${val}`;
   fetch(url, {
     method: 'GET',
@@ -123,7 +119,8 @@ function visualizematchesWonEachYear (matchesWonEachYear) {
 }
 
 function visualizeExtraRunsConceded(extraRuns, year) {
-  console.log(extraRuns, year)
+  // console.log(extraRuns, year)
+  document.querySelector("div.loader").classList.add("hide");
   const seriesData = []; 
   if(year){
     extraRuns[year].forEach( a => {

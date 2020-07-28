@@ -7,6 +7,7 @@
     <meta name="description" content="IPL visualization">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <link href="./styles.css" rel="stylesheet">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <title>
         IPL visualization
     </title>
@@ -17,7 +18,8 @@
     <div class="inputContainer">
         <span class="label">Enter year: </span>
         <input type="number" min="2008" max="2019" class="yearInput">
-        <button class="yearButton">Submit</button>
+        <button class="yearButton">Submit</button> 
+        <div class="loader hide"></div>
         <span class="error">Error: Enter year from 2008 to 2019</span>
     </div>
     <div id="extraRunsConceded" style="min-width: 310px; height: 450px; margin: 20px auto; border: 2px solid black; "></div>

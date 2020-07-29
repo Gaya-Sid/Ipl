@@ -12,7 +12,7 @@ function fetchAndVisualizeExtraRunsConceded(val){
   fetch(url, {
     method: 'GET',
   }).then(res => res.json())
-    .then(data => visualizeExtraRunsConceded(data[2].extraRuns, val));
+    .then(data => visualizeExtraRunsConceded(data, val));
 };
 
 document.querySelector(".yearButton").addEventListener("click", function(){
@@ -123,7 +123,7 @@ function visualizeExtraRunsConceded(extraRuns, year) {
   document.querySelector("div.loader").classList.add("hide");
   const seriesData = []; 
   if(year){
-    extraRuns[year].forEach( a => {
+    extraRuns.forEach( a => {
       let res = Object.keys(a).concat(Object.values(a))
       seriesData.push(res);
     })  

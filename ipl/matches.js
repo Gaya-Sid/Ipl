@@ -45,18 +45,18 @@ function matchesWonEachYear(matches) {
 }
 
 // For the year 2016, plot the extra runs conceded by each team.
-function extraRuns(deliveries, matches, year) {  
-  // let years = [...new Set(matches.map( m => m.season))].sort();
+function extraRuns(deliveries, matches) {  
+  let years = [...new Set(matches.map( m => m.season))].sort();
   let data = {};
 
-  data[year] = getExtraRuns(deliveries, matches, year);
+  // data[year] = getExtraRuns(deliveries, matches, year);
 
  
-  // years.forEach(year => {
-  //   data[year] = getExtraRuns(deliveries, matches, year);
-  // })
+  years.forEach(year => {
+    data[year] = getExtraRuns(deliveries, matches, year);
+  })
 
-  // console.log(data);
+  console.log(data);
   function getExtraRuns(deliveries, matches, year){
     let yearData = matches.filter(m => m.season === year)
       .map( m => [[m.team1, m.team2], m.id, ])

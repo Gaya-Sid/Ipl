@@ -69,9 +69,9 @@ app.get('/', function(req, res){
 });
 
 app.get('/api', function(req, res){
-  data[2].extraRuns = extraRuns(deliveryData, matchData, req.query.year);
-  // console.log(req.query);
-  res.json(data);
+  // data[2].extraRuns = extraRuns(deliveryData, matchData, req.query.year);
+  // console.log(req.query, data[2].extraRuns[req.query.year] );
+  res.json(data[2].extraRuns[req.query.year]);
 });
 
 

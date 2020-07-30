@@ -45,52 +45,76 @@ function matchesWonEachYear(matches) {
 }
 
 // For the year 2016, plot the extra runs conceded by each team.
-function extraRuns(deliveries, matches) {  
-  let years = [...new Set(matches.map( m => m.season))].sort();
-  let data = {};
+function extraRuns(deliveries, matches, year) { 
+  //// Approach 1
+  // let years = [...new Set(matches.map( m => m.season))].sort();
+  // let data = {};
 
-  // data[year] = getExtraRuns(deliveries, matches, year);
+  // years.forEach(year => {
+  //   data[year] = getExtraRuns(deliveries, matches, year);
+  // })
 
- 
-  years.forEach(year => {
-    data[year] = getExtraRuns(deliveries, matches, year);
-  })
+  // console.log(data);
+  // function getExtraRuns(deliveries, matches, year){
+  //   let yearData = matches.filter(m => m.season === year)
+  //     .map( m => [[m.team1, m.team2], m.id, ])
+  //   let ids = matches.filter(m => m.season === year).map( m => m.id )
+  //   let teams = [...new Set(yearData.map( m => m[0][0]))];
+  //   let arr = [];
+  //   let res = [];
 
-  console.log(data);
-  function getExtraRuns(deliveries, matches, year){
-    let yearData = matches.filter(m => m.season === year)
-      .map( m => [[m.team1, m.team2], m.id, ])
-    let ids = matches.filter(m => m.season === year).map( m => m.id )
-    let teams = [...new Set(yearData.map( m => m[0][0]))];
-    let arr = [];
-    let res = [];
+  //   ids.forEach( id => {
+  //     teams.forEach(team => {
+  //       arr.push([team, getRuns(id, team)])
+  //     })
+  //   })
 
-    ids.forEach( id => {
-      teams.forEach(team => {
-        arr.push([team, getRuns(id, team)])
-      })
+  //   function getRuns(id, team) {
+  //     let runs = 0;
+  //     deliveries.filter(m => m["match_id"] === id)
+  //       .filter(t => t["bowling_team"] === team)
+  //       .forEach( x => runs += parseInt(x["extra_runs"]) );
+  //     return runs
+  //   }
+
+  //   teams.forEach( t => {
+  //     let sum = 0;
+  //     arr.filter(m => m[0] === t).forEach(v => {
+  //       sum += parseInt(v[1]);
+  //     })
+  //     res.push({[t]: sum});
+  //   })
+  //   return res
+  // }
+  // return data
+
+  //// Approach 2
+
+  // extraRunsPerTeamPerYear
+  // 
+
+  function getExtraRuns(matches, deliveries, year="2019"){
+    let ids = [];
+    matches.forEach(m => {
+      if(m.season === year){
+        ids.push(m['id']);
+      }
+    });
+    let obj = {};
+    deliveries.forEach(d => {
+      if(ids.includes(d["match_id"])){
+        if(obj.hasOwnProperty(d["bowling_team"])) {
+          obj[d["bowling_team"]] += Number(d["extra_runs"]);
+        } else {
+          obj[d["bowling_team"]] = Number(d["extra_runs"]);
+        }
+      }
     })
-
-    function getRuns(id, team) {
-      let runs = 0;
-      deliveries.filter(m => m["match_id"] === id)
-        .filter(t => t["bowling_team"] === team)
-        .forEach( x => runs += parseInt(x["extra_runs"]) );
-      return runs
-    }
-
-    teams.forEach( t => {
-      let sum = 0;
-      arr.filter(m => m[0] === t).forEach(v => {
-        sum += parseInt(v[1]);
-      })
-      res.push({[t]: sum});
-    })
-
-    // console.log(res)
-    return res
+    console.log({[year]: obj})
+    return {[year]: obj}
   }
-  return data
+
+  return getExtraRuns(matches, deliveries, year)
  }
 
  function topEconomicalBowlers(deliveries, matches) {

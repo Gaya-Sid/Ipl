@@ -12,7 +12,7 @@ function fetchAndVisualizeExtraRunsConceded(val){
   fetch(url, {
     method: 'GET',
   }).then(res => res.json())
-    .then(data => visualizeExtraRunsConceded(data, val));
+    .then(data => visualizeExtraRunsConceded(data[2].extraRuns, val));
 };
 
 document.querySelector(".yearButton").addEventListener("click", function(){
@@ -118,22 +118,21 @@ function visualizematchesWonEachYear (matchesWonEachYear) {
   });
 }
 
-function visualizeExtraRunsConceded(extraRuns, year) {
-  // console.log(extraRuns, year)
+function visualizeExtraRunsConceded(extraRuns, year="2019") {
+  // console.log(extraRuns[year], year);
   document.querySelector("div.loader").classList.add("hide");
-  const seriesData = []; 
-  if(year){
-    extraRuns.forEach( a => {
-      let res = Object.keys(a).concat(Object.values(a))
-      seriesData.push(res);
-    })  
+  const seriesData = [];
+
+  for (let team in extraRuns[year]) {
+    seriesData.push([team, extraRuns[year][team]]);
   }
+  
   Highcharts.chart("extraRunsConceded", {
     chart: {
       type: "column"
     },
     title: {
-      text: `"3. Extra runs conceded by each team in ${year ? year : "the year."}"`
+      text: `3. Extra runs conceded by each team in ${year ? year : "the year."}`
     },
     subtitle: {
       text:
